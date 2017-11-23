@@ -89,5 +89,16 @@ public class Sala {
 
     private static boolean sessaoAnterior(Sessao sessao, Sessao s) {
         return (sessao.horaFinal() < s.getHora()) || ((sessao.horaFinal() == s.getHora()) && (sessao.minFinal() <= s.getMin()));
-    }    
+    }
+
+    public void criarPoltronas(){
+        for(int i = 0; i < qntFileiras; i++){
+            for(int j = 0; j < qntColunas; j++){
+                Poltrona poltrona = new Poltrona();
+                poltrona.setFileira(i);
+                poltrona.setColuna(j);
+                poltronas.add(poltrona);
+            }
+        }
+    }
 }

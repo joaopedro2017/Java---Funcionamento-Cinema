@@ -15,6 +15,9 @@ public class Poltrona {
         indexs = new ArrayList<>();
     }    
 
+    Poltrona() {        
+    }
+
     public int getFileira() {
         return fileira;
     }
