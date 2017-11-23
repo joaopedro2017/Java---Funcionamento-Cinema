@@ -50,6 +50,22 @@ public class Sala {
 
     public void setTipoSom(String tipoSom) {
         this.tipoSom = tipoSom;
-    }   
+    }
+
+    public ArrayList<Sessao> getSessoes() {
+        return sessoes;
+    }
+
+    public void setSessoes(ArrayList<Sessao> sessoes) {
+        this.sessoes = sessoes;
+    }
+
+    public ArrayList<Poltrona> getPoltronas() {
+        return poltronas;
+    }
+
+    public void setPoltronas(ArrayList<Poltrona> poltronas) {
+        this.poltronas = poltronas;
+    }
     
 }

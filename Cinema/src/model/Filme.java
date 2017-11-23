@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 /*
  * @author JohnPeter
  */
@@ -7,6 +9,16 @@ public class Filme {
     private String nome, tipo;
     private int duracao, classificacao;
     private boolean dublado;
+    private ArrayList<Sessao> sessoes;
+
+    public Filme(String nome, String tipo, int duracao, int classificacao, boolean dublado) {
+        this.nome = nome;
+        this.tipo = tipo;
+        this.duracao = duracao;
+        this.classificacao = classificacao;
+        this.dublado = dublado;
+        sessoes = new ArrayList<>();
+    }    
 
     public String getNome() {
         return nome;
@@ -46,5 +58,14 @@ public class Filme {
 
     public void setDublado(boolean dublado) {
         this.dublado = dublado;
-    }    
+    }
+
+    public ArrayList<Sessao> getSessoes() {
+        return sessoes;
+    }
+
+    public void setSessoes(ArrayList<Sessao> sessoes) {
+        this.sessoes = sessoes;
+    }
+    
 }
