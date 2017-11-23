@@ -89,5 +89,14 @@ public class Sessao {
 
     private int duracaoHora() {
         return ((filme.getDuracao() + min + 10) / 60);
-    }    
+    }
+    
+    public boolean escolherLugar(int f, int c, int end){
+        if(sala.getQntFileiras() > f && sala.getQntColunas() > c && !sala.poltronaOcupada(f, c, end)){
+            sala.getPoltronas().get( sala.indexPoltronaFC(f, c) ).getIndexs().get(end).setOcupada(true);
+            return true;
+        }else{
+            return false;
+        }        
+    }
 }
