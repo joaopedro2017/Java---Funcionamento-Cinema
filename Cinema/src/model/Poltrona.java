@@ -40,5 +40,16 @@ public class Poltrona {
 
     public void setIndexs(ArrayList<Index> indexs) {
         this.indexs = indexs;
-    }    
+    }
+
+    public int retornoIdIndex(int id){
+        int num = -1, cont = 0;
+        for(Index i: indexs){
+            if(i.getId() == id){
+                num = cont;
+            }
+            cont++;
+        }
+        return num;
+    }
 }
