@@ -77,6 +77,17 @@ public class Sessao {
 
     public void setBilhetes(ArrayList<Bilhete> bilhetes) {
         this.bilhetes = bilhetes;
-    }  
+    } 
     
+    public int horaFinal(){
+        return (hora + duracaoHora());
+    }
+    
+    public int minFinal(){
+        return ((filme.getDuracao() + min + 10) - (duracaoHora() * 60));
+    }
+
+    private int duracaoHora() {
+        return ((filme.getDuracao() + min + 10) / 60);
+    }    
 }
