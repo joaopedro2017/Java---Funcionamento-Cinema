@@ -6,18 +6,17 @@ import java.util.ArrayList;
  * @author JohnPeter
  */
 public class Sessao {
-    private int id;
+    private int id, hora, min;
     private double preco;
-    private int hora, min;
     private Filme filme;
     private Sala sala;
     private ArrayList<Bilhete> bilhetes;
 
-    public Sessao(int id, double preco, Filme filme, ArrayList<Bilhete> bilhetes) {
+    public Sessao(int id, double preco, Filme filme) {
         this.id = id;
         this.preco = preco;
         this.filme = filme;
-        this.bilhetes = bilhetes;
+        bilhetes = new ArrayList<>();
     }  
 
     public int getId() {
