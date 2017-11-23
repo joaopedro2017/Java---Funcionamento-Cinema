@@ -101,4 +101,15 @@ public class Sala {
             }
         }
     }
+    
+    public void indexarPoltronas(){
+        for(Poltrona p: poltronas){
+            for(Sessao s: sessoes){
+                Index index = new Index();
+                index.setId(s.getId());
+                index.setOcupada(false);
+                p.getIndexs().add(index);
+            }
+        }
+    }
 }
