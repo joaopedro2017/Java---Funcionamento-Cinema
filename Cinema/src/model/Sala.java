@@ -112,4 +112,12 @@ public class Sala {
             }
         }
     }
+    
+    public boolean poltronaOcupada(int f, int c, int end){
+        return getPoltronas().get(indexPoltronaFC(f, c)).getIndexs().get(end).isOcupada();
+    }
+
+    private int indexPoltronaFC(int f, int c) {
+        return ((f * qntColunas) + c);
+    }
 }
