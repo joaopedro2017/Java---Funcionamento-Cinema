@@ -107,4 +107,9 @@ public class Sessao {
         }
         return valorTotal;
     }
+    
+    @Override
+    public String toString(){
+        return ("Sessão "+id+" : "+hora+":"+min+" - "+horaFinal()+":"+minFinal()+" Filme: " +filme.getNome());
+    }
 }
