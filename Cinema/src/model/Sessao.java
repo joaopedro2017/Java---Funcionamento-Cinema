@@ -40,7 +40,9 @@ public class Sessao {
     }
 
     public void setHora(int hora) {
-        this.hora = hora;
+        if(hora >= 0 && hora < 24){
+            this.hora = hora;
+        }
     }
 
     public int getMin() {
@@ -48,7 +50,9 @@ public class Sessao {
     }
 
     public void setMin(int min) {
-        this.min = min;
+        if(min >= 0 && min < 60){
+            this.min = min;
+        }
     }
 
     public Filme getFilme() {
