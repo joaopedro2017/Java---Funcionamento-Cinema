@@ -120,4 +120,12 @@ public class Sala {
     public int indexPoltronaFC(int f, int c) {
         return ((f * qntColunas) + c);
     }
+    
+    public double valorTotalSala(){
+        double valorTotal = 0;
+        for(Sessao s: sessoes){
+            valorTotal += s.valorTotalBilhetesVendidos();
+        }
+        return valorTotal;
+    }
 }
