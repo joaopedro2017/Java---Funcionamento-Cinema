@@ -114,11 +114,48 @@ public class Sala {
     }
     
     public boolean poltronaOcupada(int f, int c, int end){
-        return getPoltronas().get(indexPoltronaFC(f, c)).getIndexs().get(end).isOcupada();
+        return poltronas.get(indexPoltronaFC(f, c)).getIndexs().get(end).isOcupada();
     }
 
     public int indexPoltronaFC(int f, int c) {
         return ((f * qntColunas) + c);
+    }
+    
+    public void mapaSala(int end){
+        int cont = 0;
+        System.out.print("     ");        
+        for(int k = 0; k < qntColunas; k++){
+            if(k < 10){
+                System.out.print("[ 0"+k+"]");
+            }
+            else {
+                System.out.print("[ "+k+"]");
+            }
+        }
+        System.out.println("\n");
+        for(int i = 0; i < qntFileiras; i++){
+            if(i < 10){
+                System.out.print("[ 0"+i+"]");
+            }
+            else{
+                System.out.print("[ "+i+"]");
+            }
+            for(int j = 0; j < qntColunas; j++){
+                if(poltronaOcupada(i, j, end)){
+                    System.out.print("[OCP]");
+                    cont++;
+                }else{
+                    System.out.print("[---]");
+                }
+            }            
+            System.out.print("\n");
+        }
+        System.out.println("\n");
+        System.out.println("\t" + cont + " Lugares Ocupados e " + qntDisponiveis(cont) + " Disponíveis");        
+    }
+    
+    public int qntDisponiveis(int cont){
+        return ((qntColunas * qntFileiras) - cont);
     }
     
     public double valorTotalSala(){
