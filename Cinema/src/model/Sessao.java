@@ -99,4 +99,12 @@ public class Sessao {
             return false;
         }        
     }
+    
+    public double valorTotalBilhetesVendidos(){
+        double valorTotal = 0;
+        for(Bilhete b: bilhetes){
+            valorTotal += b.getValorTotal();
+        }
+        return valorTotal;
+    }
 }
