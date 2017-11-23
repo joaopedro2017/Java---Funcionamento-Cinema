@@ -1,10 +1,19 @@
 package model;
 
+import java.util.ArrayList;
+
 /*
  * @author JohnPeter
  */
 public class Poltrona {
     private int fileira, coluna;
+    private ArrayList<Index> indexs;
+
+    public Poltrona(int fileira, int coluna) {
+        this.fileira = fileira;
+        this.coluna = coluna;
+        indexs = new ArrayList<>();
+    }    
 
     public int getFileira() {
         return fileira;
@@ -20,6 +29,13 @@ public class Poltrona {
 
     public void setColuna(int coluna) {
         this.coluna = coluna;
+    }  
+
+    public ArrayList<Index> getIndexs() {
+        return indexs;
+    }
+
+    public void setIndexs(ArrayList<Index> indexs) {
+        this.indexs = indexs;
     }    
-    
 }
