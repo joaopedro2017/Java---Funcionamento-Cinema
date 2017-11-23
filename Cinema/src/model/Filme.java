@@ -68,4 +68,11 @@ public class Filme {
         this.sessoes = sessoes;
     }
     
+    public double valorTotalFilme(){
+        double valorTotal = 0;
+        for(Sessao s: sessoes){
+            valorTotal += s.valorTotalBilhetesVendidos();
+        }
+        return valorTotal;
+    }
 }
