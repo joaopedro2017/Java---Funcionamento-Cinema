@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 /*
  * @author JohnPeter
  */
@@ -7,6 +9,16 @@ public class Sessao {
     private int id;
     private double preco;
     private int hora, min;
+    private Filme filme;
+    private Sala sala;
+    private ArrayList<Bilhete> bilhetes;
+
+    public Sessao(int id, double preco, Filme filme, ArrayList<Bilhete> bilhetes) {
+        this.id = id;
+        this.preco = preco;
+        this.filme = filme;
+        this.bilhetes = bilhetes;
+    }  
 
     public int getId() {
         return id;
@@ -38,6 +50,30 @@ public class Sessao {
 
     public void setMin(int min) {
         this.min = min;
-    }   
+    }
+
+    public Filme getFilme() {
+        return filme;
+    }
+
+    public void setFilme(Filme filme) {
+        this.filme = filme;
+    }
+
+    public Sala getSala() {
+        return sala;
+    }
+
+    public void setSala(Sala sala) {
+        this.sala = sala;
+    }
+
+    public ArrayList<Bilhete> getBilhetes() {
+        return bilhetes;
+    }
+
+    public void setBilhetes(ArrayList<Bilhete> bilhetes) {
+        this.bilhetes = bilhetes;
+    }  
     
 }
