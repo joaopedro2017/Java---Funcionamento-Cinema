@@ -68,4 +68,26 @@ public class Sala {
         this.poltronas = poltronas;
     }
     
+    public boolean verificarSessao(Sessao sessao){
+        boolean exist = true;
+                
+        if( sessoes.isEmpty()){
+            exist = false;
+        }else{
+            for(Sessao s: sessoes){
+                if( !sessaoAnterior(sessao, s)  || !sessaoPosterior(sessao, s) ){
+                    exist = false;
+                }
+            }
+        }
+        return exist;
+    }
+
+    private static boolean sessaoPosterior(Sessao sessao, Sessao s) {
+        return (sessao.getHora() > s.horaFinal()) || ((sessao.getHora() == s.horaFinal()) && (sessao.getMin() >= s.minFinal()));
+    }
+
+    private static boolean sessaoAnterior(Sessao sessao, Sessao s) {
+        return (sessao.horaFinal() < s.getHora()) || ((sessao.horaFinal() == s.getHora()) && (sessao.minFinal() <= s.getMin()));
+    }    
 }
