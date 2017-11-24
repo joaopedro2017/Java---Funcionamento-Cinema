@@ -18,7 +18,16 @@ public class Filme {
         this.classificacao = classificacao;
         this.dublado = dublado;
         sessoes = new ArrayList<>();
-    }    
+    } 
+
+    public Filme() {
+        this.nome = "";
+        this.tipo = "";
+        this.duracao = 0;
+        this.classificacao = 0;
+        this.dublado = false;
+        sessoes = new ArrayList<>();
+    }  
 
     public String getNome() {
         return nome;
