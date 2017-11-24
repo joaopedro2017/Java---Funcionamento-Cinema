@@ -20,6 +20,15 @@ public class Sala {
         poltronas = new ArrayList<>();
     }  
 
+    public Sala() {
+        this.numero = 0;
+        this.qntFileiras = 0;
+        this.qntColunas = 0;
+        this.tipoSom = "";
+        sessoes = new ArrayList<>();
+        poltronas = new ArrayList<>();        
+    }
+
     public int getNumero() {
         return numero;
     }
