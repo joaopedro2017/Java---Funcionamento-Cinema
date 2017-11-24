@@ -37,6 +37,15 @@ public class Principal {
         System.out.println("------------------------------------------------------------------");
         System.out.println("\tMontar Sessoẽs\n");
         montarSessoes(j, teclado, filmes, salas);
+        
+        indexarPoltronas(salas);
+    }
+
+    private static void indexarPoltronas(ArrayList<Sala> salas) {
+        for(Sala s: salas){
+            s.criarPoltronas();
+            s.indexarPoltronas();
+        }
     }
 
     private static void montarSessoes(int j, Scanner teclado, ArrayList<Filme> filmes, ArrayList<Sala> salas) {
