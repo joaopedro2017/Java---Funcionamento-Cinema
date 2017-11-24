@@ -53,38 +53,70 @@ public class Principal {
             System.out.print("\tInforme o Minuto de Início: "); sessao.setMin(teclado.nextInt());
             System.out.print("\n");
             
-            System.out.println("\tSelecione o Filme: ");
-            for(Filme f: filmes){
-                System.out.println("\t"+(++idx)+ ") "+f.getNome());                
-            }
-            System.out.println("\tDigite o Número do Filme: "); filmSel = teclado.nextInt();
+            filmSel = escolherFilme(filmes, idx, teclado, sessao);
             
-            sessao.setFilme(filmes.get(filmSel-1));
-            filmes.get(filmSel-1).getSessoes().add(sessao);            
-            
-            System.out.print("\n");
-            System.out.println("\tEscolha a Sala: ");
-            for(Sala s: salas){
-                if(!s.verificarSessao(sessao)){
-                    System.out.println("\tSala "+s.getNumero());
-                    valido = true;
-                }
-            }
+            valido = listarSalasValidas(salas, sessao, valido);
             
             if(valido){
-                System.out.println("\tDigite o Número da Sala: "); salSel = teclado.nextInt();          
-                sessao.setSala(salas.get(salSel-1));
-                salas.get(salSel-1).getSessoes().add(sessao);
-                System.out.println("\tDeseja Montar Nova Sessão? (S)im (N)ão"); continua = teclado.next();
+                continua = escolherSala(teclado, sessao, salas);             
             }else{
-                sessao.setId(0);
-                sessao.setFilme(null);
-                filmes.get(filmSel-1).getSessoes().remove(sessao);
-                j--;
-                System.out.println("\tNão tem Sala Disponível para essa Sessão"); 
-                System.out.println("\tDeseja tentar Novamente? (S)im (N)ão"); continua = teclado.next();
+                j = removeFilmeSessao(sessao, filmes, filmSel, j);
+                continua = mensagemSalaIndisponivel(teclado);
             }           
         }while(continua.equalsIgnoreCase("s"));
+    }
+
+    private static String mensagemSalaIndisponivel(Scanner teclado) {
+        String continua;
+        System.out.println("\tNão tem Sala Disponível para essa Sessão");
+        System.out.println("\tDeseja tentar Novamente? (S)im (N)ão");
+        continua = teclado.next();
+        return continua;
+    }
+
+    private static int removeFilmeSessao(Sessao sessao, ArrayList<Filme> filmes, int filmSel, int j) {
+        sessao.setId(0);
+        sessao.setFilme(null);
+        filmes.get(filmSel-1).getSessoes().remove(sessao);
+        j--;
+        return j;
+    }
+
+    private static String escolherSala(Scanner teclado, Sessao sessao, ArrayList<Sala> salas) {
+        int salSel;
+        String continua;
+        System.out.println("\tDigite o Número da Sala: ");
+        salSel = teclado.nextInt();
+        sessao.setSala(salas.get(salSel-1));
+        salas.get(salSel-1).getSessoes().add(sessao);
+        System.out.println("\tDeseja Montar Nova Sessão? (S)im (N)ão");
+        continua = teclado.next();
+        return continua;
+    }
+
+    private static boolean listarSalasValidas(ArrayList<Sala> salas, Sessao sessao, boolean valido) {
+        System.out.print("\n");
+        System.out.println("\tEscolha a Sala: ");
+        for(Sala s: salas){
+            if(!s.verificarSessao(sessao)){
+                System.out.println("\tSala "+s.getNumero());
+                valido = true;
+            }
+        }
+        return valido;
+    }
+
+    private static int escolherFilme(ArrayList<Filme> filmes, int idx, Scanner teclado, Sessao sessao) {
+        int filmSel;
+        System.out.println("\tSelecione o Filme: ");
+        for(Filme f: filmes){
+            System.out.println("\t"+(++idx)+ ") "+f.getNome());
+        }
+        System.out.println("\tDigite o Número do Filme: ");
+        filmSel = teclado.nextInt();
+        sessao.setFilme(filmes.get(filmSel-1));
+        filmes.get(filmSel-1).getSessoes().add(sessao);
+        return filmSel;
     }
 
     private static void cadastrarFilmes(Scanner teclado, ArrayList<Filme> filmes) {
