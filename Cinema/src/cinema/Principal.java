@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import model.Filme;
 import model.Sala;
+import model.Sessao;
 
 /**
  *
@@ -23,20 +24,70 @@ public class Principal {
         ArrayList<Sala> salas;
         salas = new ArrayList<>();
         int i = 0, j = 0;
-        
-        System.out.println("------------------------------------------------------------------");
-        System.out.println("\tInicializar as salas \n");
         String continua = "s";
         
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("\tInicializar as salas \n");                
         criarSalas(continua, i, teclado, salas);
 
         System.out.println("------------------------------------------------------------------");
-        System.out.println("\tCadastro de Filmes\n");
+        System.out.println("\tCadastro de Filmes\n");        
+        cadastrarFilmes(teclado, filmes);
         
-        cadastrarFilme(teclado, filmes);
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("\tMontar Sessoẽs\n");
+        montarSessoes(j, teclado, filmes, salas);
     }
 
-    private static void cadastrarFilme(Scanner teclado, ArrayList<Filme> filmes) {
+    private static void montarSessoes(int j, Scanner teclado, ArrayList<Filme> filmes, ArrayList<Sala> salas) {
+        String continua;
+        do{
+            Sessao sessao = new Sessao();
+            int idx = 0, filmSel = 0, salSel = 0;
+            boolean valido = false;
+            j++;
+            System.out.println("\t--------------------------------------");
+            System.out.println("\tSessao : "+j); sessao.setId(j);
+            System.out.print("\tInforme o Preço: "); sessao.setPreco(teclado.nextDouble());
+            System.out.print("\tInforme a Hora de Início: "); sessao.setHora(teclado.nextInt());
+            System.out.print("\tInforme o Minuto de Início: "); sessao.setMin(teclado.nextInt());
+            System.out.print("\n");
+            
+            System.out.println("\tSelecione o Filme: ");
+            for(Filme f: filmes){
+                System.out.println("\t"+(++idx)+ ") "+f.getNome());                
+            }
+            System.out.println("\tDigite o Número do Filme: "); filmSel = teclado.nextInt();
+            
+            sessao.setFilme(filmes.get(filmSel-1));
+            filmes.get(filmSel-1).getSessoes().add(sessao);            
+            
+            System.out.print("\n");
+            System.out.println("\tEscolha a Sala: ");
+            for(Sala s: salas){
+                if(!s.verificarSessao(sessao)){
+                    System.out.println("\tSala "+s.getNumero());
+                    valido = true;
+                }
+            }
+            
+            if(valido){
+                System.out.println("\tDigite o Número da Sala: "); salSel = teclado.nextInt();          
+                sessao.setSala(salas.get(salSel-1));
+                salas.get(salSel-1).getSessoes().add(sessao);
+                System.out.println("\tDeseja Montar Nova Sessão? (S)im (N)ão"); continua = teclado.next();
+            }else{
+                sessao.setId(0);
+                sessao.setFilme(null);
+                filmes.get(filmSel-1).getSessoes().remove(sessao);
+                j--;
+                System.out.println("\tNão tem Sala Disponível para essa Sessão"); 
+                System.out.println("\tDeseja tentar Novamente? (S)im (N)ão"); continua = teclado.next();
+            }           
+        }while(continua.equalsIgnoreCase("s"));
+    }
+
+    private static void cadastrarFilmes(Scanner teclado, ArrayList<Filme> filmes) {
         String continua;
         do{
             Filme filme = new Filme();

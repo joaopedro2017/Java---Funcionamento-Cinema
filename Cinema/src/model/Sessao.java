@@ -17,7 +17,14 @@ public class Sessao {
         this.preco = preco;
         this.filme = filme;
         bilhetes = new ArrayList<>();
-    }  
+    }
+
+    public Sessao() {
+        this.id = 0;
+        this.preco = 0;
+        this.filme = null;
+        bilhetes = new ArrayList<>();
+    }    
 
     public int getId() {
         return id;

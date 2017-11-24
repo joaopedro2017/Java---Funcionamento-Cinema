@@ -78,18 +78,21 @@ public class Sala {
     }
     
     public boolean verificarSessao(Sessao sessao){
-        boolean exist = true;
-                
-        if( sessoes.isEmpty()){
-            exist = false;
+        int cont = 0;                
+        if(sessoes.isEmpty()){
+            return false;
         }else{
             for(Sessao s: sessoes){
-                if( !sessaoAnterior(sessao, s)  || !sessaoPosterior(sessao, s) ){
-                    exist = false;
+                if( sessaoAnterior(sessao, s)  || sessaoPosterior(sessao, s) ){
+                    cont++;
                 }
             }
-        }
-        return exist;
+            if(sessoes.size() == cont){
+                return false;
+            }else{
+                return true;
+            }        
+        }              
     }
 
     private static boolean sessaoPosterior(Sessao sessao, Sessao s) {
