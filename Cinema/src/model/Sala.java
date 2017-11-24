@@ -117,9 +117,7 @@ public class Sala {
     public void indexarPoltronas(){
         for(Poltrona p: poltronas){
             for(Sessao s: sessoes){
-                Index index = new Index();
-                index.setId(s.getId());
-                index.setOcupada(false);
+                Index index = new Index( s.getId(), false );
                 p.getIndexs().add(index);
             }
         }

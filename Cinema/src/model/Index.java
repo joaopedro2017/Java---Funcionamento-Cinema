@@ -10,6 +10,11 @@ public class Index {
     public Index() {
     }
 
+    public Index(int id, boolean ocupada) {
+        this.id = id;
+        this.ocupada = ocupada;
+    }   
+
     public int getId() {
         return id;
     }
@@ -25,5 +30,4 @@ public class Index {
     public void setOcupada(boolean ocupada) {
         this.ocupada = ocupada;
     }    
-    
 }

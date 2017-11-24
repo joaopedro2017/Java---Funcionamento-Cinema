@@ -5,7 +5,7 @@ package model;
  */
 public class Bilhete {
     private Sessao sessao;
-    private double valorTotal;
+    private double valor;
 
     public Bilhete() {
     }
@@ -18,12 +18,11 @@ public class Bilhete {
         this.sessao = sessao;
     }
 
-    public double getValorTotal() {
-        return valorTotal;
+    public double getValor() {
+        return valor;
     }
 
-    public void setValorTotal(double valorTotal) {
-        this.valorTotal = valorTotal;
-    }  
-    
+    public void setValor(double valor) {
+        this.valor = valor;
+    }    
 }

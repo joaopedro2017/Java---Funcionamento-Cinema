@@ -36,10 +36,25 @@ public class Principal {
         
         System.out.println("------------------------------------------------------------------");
         System.out.println("\tMontar Sessoẽs\n");
-        montarSessoes(j, teclado, filmes, salas);
-        
+        montarSessoes(j, teclado, filmes, salas);        
+               
         indexarPoltronas(salas);
-    }
+        
+        System.out.println("------------------------------------------------------------------");
+        System.out.print("\n\n");
+        System.out.println("\t\tBilheteria");
+        do{
+            System.out.println("\n");
+            System.out.println("\tSelecione a Sessão");
+            for(Sala s: salas){
+                for(Sessao e: s.getSessoes()){
+                    System.out.println("\t"+e.toString());
+                }
+            }            
+            System.out.println("\tDeseja Vender Novo Ingresso? (S)im (N)ão"); continua = teclado.next();        
+        }while(continua.equalsIgnoreCase("s"));    
+        
+    }  
 
     private static void indexarPoltronas(ArrayList<Sala> salas) {
         for(Sala s: salas){
@@ -154,7 +169,6 @@ public class Principal {
             System.out.print("\tQuantidade de Colunas: "); sala.setQntColunas(teclado.nextInt());
             System.out.print("\tTipo de Som: "); sala.setTipoSom(teclado.next());
             
-            sala.criarPoltronas();
             salas.add(sala);
             System.out.println("\tDeseja Cadastrar Nova Sala? (S)im (N)ão"); continua = teclado.next();            
         }

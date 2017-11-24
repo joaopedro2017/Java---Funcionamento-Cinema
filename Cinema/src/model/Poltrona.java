@@ -15,7 +15,9 @@ public class Poltrona {
         indexs = new ArrayList<>();
     }    
 
-    Poltrona() {        
+    Poltrona() {
+        fileira = coluna =0;
+        indexs = new ArrayList<>();       
     }
 
     public int getFileira() {

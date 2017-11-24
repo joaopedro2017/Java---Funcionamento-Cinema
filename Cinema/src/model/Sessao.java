@@ -110,7 +110,7 @@ public class Sessao {
     public double valorTotalBilhetesVendidos(){
         double valorTotal = 0;
         for(Bilhete b: bilhetes){
-            valorTotal += b.getValorTotal();
+            valorTotal += b.getValor();
         }
         return valorTotal;
     }
