@@ -45,12 +45,26 @@ public class Principal {
         System.out.println("\t\tBilheteria");
         do{
             System.out.println("\n");
-            System.out.println("\tSelecione a Sessão");
+            System.out.println("\tSelecione a Sessão: ");
             for(Sala s: salas){
                 for(Sessao e: s.getSessoes()){
                     System.out.println("\t"+e.toString());
                 }
-            }                        
+            }
+            
+            int numSala = 0, numSessao = 0;
+            System.out.println("\tDigite o código da Sessão: ");    int id = teclado.nextInt();
+            for(Sala s: salas){
+                int cont = 0;
+                for(Sessao e: s.getSessoes()){
+                    if(e.getId() == id){
+                       numSala = e.getSala().getNumero();
+                       numSessao = cont;
+                    }
+                    cont++;
+                }
+            }          
+            
             System.out.println("\tDeseja Vender Novo Ingresso? (S)im (N)ão"); continua = teclado.next();        
         }while(continua.equalsIgnoreCase("s"));    
         
