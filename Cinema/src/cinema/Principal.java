@@ -2,6 +2,7 @@ package cinema;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import model.Bilhete;
 import model.Filme;
 import model.Sala;
 import model.Sessao;
@@ -52,11 +53,61 @@ public class Principal {
             salas.get(numSala-1).mapaSala(end);
             
             System.out.println("\t------Quantos lugares?--------");     int qnt = teclado.nextInt();
+            int desc = qnt, fil, col, aux = 1;
             
+            while(qnt > 0){
+                System.out.println("\t"+(aux++) +"º Ingresso: ");
+                System.out.print("\tDigite a fileira: "); fil = teclado.nextInt();
+                System.out.print("\tDigite a coluna: "); col = teclado.nextInt();
+                System.out.print("\n");            
+                boolean valido = salas.get(numSala-1).getSessoes().get(numSessao).escolherLugar(fil, col, end);
+                if(valido){         
+                    Bilhete bilhete = criarBilhete(salas, numSala, numSessao, desc);                    
+                    imprimirBilhete(bilhete, fil, col);                    
+                }else{
+                    qnt++;
+                    aux--;
+                    System.out.println("\tLugar já ocupado ou não existe");
+                    System.out.println("\tTente Novamente!");
+                    System.out.println("------------------------------------------------------------------");
+                }           
+                qnt--;          
+            }          
             System.out.println("\tDeseja Vender Novo Ingresso? (S)im (N)ão"); continua = teclado.next();        
-        }while(continua.equalsIgnoreCase("s"));    
+        }while(continua.equalsIgnoreCase("s"));
+        
+        for(Sala s: salas){
+            for(Sessao e: s.getSessoes()){
+                System.out.println("\t"+e.valorTotalBilhetesVendidos());
+            }
+        }
         
     }  
+
+    private static Bilhete criarBilhete(ArrayList<Sala> salas, int numSala, int numSessao, int desc) {
+        double valorBilhete = salas.get(numSala-1).getSessoes().get(numSessao).getPreco();
+        Bilhete bilhete = new Bilhete();
+        bilhete.setValor( desc > 4? valorBilhete * 0.85: valorBilhete );
+        bilhete.setSessao( salas.get(numSala-1).getSessoes().get(numSessao) );
+        salas.get(numSala-1).getSessoes().get(numSessao).getBilhetes().add(bilhete);
+        return bilhete;
+    }
+
+    private static void imprimirBilhete(Bilhete bilhete, int fil, int col) {
+        String dub = "";
+        if(bilhete.getSessao().getFilme().isDublado()){
+            dub = "Dublado";
+        }else{
+            dub = "Legendado";
+        }
+        System.out.println("\t\tCinemania");
+        System.out.println("\tFil: " +fil+", Col: "+col);
+        System.out.println("\tSala: "+bilhete.getSessao().getSala().getNumero());
+        System.out.println("\tFilme: "+bilhete.getSessao().getFilme().getNome() +" - "+bilhete.getSessao().getFilme().getTipo() + " - " +dub) ;
+        System.out.println("\tClassificação: " + bilhete.getSessao().getFilme().getClassificacao());
+        System.out.println("\tSessão: "+bilhete.getSessao().getHora()+":"+bilhete.getSessao().getMin()+" - "+bilhete.getSessao().horaFinal()+":"+bilhete.getSessao().minFinal());
+        System.out.println("------------------------------------------------------------------");
+    }
 
     private static void cadastroCinema(String continua, int i, Scanner teclado, ArrayList<Sala> salas, ArrayList<Filme> filmes, int j) {
         System.out.println("------------------------------------------------------------------");
