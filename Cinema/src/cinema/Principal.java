@@ -53,26 +53,10 @@ public class Principal {
             salas.get(numSala-1).mapaSala(end);
             
             System.out.println("\t------Quantos lugares?--------");     int qnt = teclado.nextInt();
-            int desc = qnt, fil, col, aux = 1;
+            int desc = qnt;
             
-            while(qnt > 0){
-                System.out.println("\t"+(aux++) +"º Ingresso: ");
-                System.out.print("\tDigite a fileira: "); fil = teclado.nextInt();
-                System.out.print("\tDigite a coluna: "); col = teclado.nextInt();
-                System.out.print("\n");            
-                boolean valido = salas.get(numSala-1).getSessoes().get(numSessao).escolherLugar(fil, col, end);
-                if(valido){         
-                    Bilhete bilhete = criarBilhete(salas, numSala, numSessao, desc);                    
-                    imprimirBilhete(bilhete, fil, col);                    
-                }else{
-                    qnt++;
-                    aux--;
-                    System.out.println("\tLugar já ocupado ou não existe");
-                    System.out.println("\tTente Novamente!");
-                    System.out.println("------------------------------------------------------------------");
-                }           
-                qnt--;          
-            }          
+            venderBilhete(qnt, teclado, salas, numSala, numSessao, end, desc);
+            
             System.out.println("\tDeseja Vender Novo Ingresso? (S)im (N)ão"); continua = teclado.next();        
         }while(continua.equalsIgnoreCase("s"));
         
@@ -81,6 +65,28 @@ public class Principal {
         valorTotalSessao(salas);
         valorTotalCinema(salas);
     }  
+
+    private static void venderBilhete(int qnt, Scanner teclado, ArrayList<Sala> salas, int numSala, int numSessao, int end, int desc) {
+        int fil, col, aux = 1;
+        while(qnt > 0){
+            System.out.println("\t"+(aux++) +"º Ingresso: ");
+            System.out.print("\tDigite a fileira: "); fil = teclado.nextInt();
+            System.out.print("\tDigite a coluna: "); col = teclado.nextInt();
+            System.out.print("\n");
+            boolean valido = salas.get(numSala-1).getSessoes().get(numSessao).escolherLugar(fil, col, end);
+            if(valido){
+                Bilhete bilhete = criarBilhete(salas, numSala, numSessao, desc);
+                imprimirBilhete(bilhete, fil, col);
+            }else{
+                qnt++;
+                aux--;
+                System.out.println("\tLugar já ocupado ou não existe");
+                System.out.println("\tTente Novamente!");
+                System.out.println("------------------------------------------------------------------");
+            }
+            qnt--;
+        }
+    }
 
     private static void valorTotalCinema(ArrayList<Sala> salas) {
         System.out.print("------------------------------------------------------------------");
