@@ -76,12 +76,48 @@ public class Principal {
             System.out.println("\tDeseja Vender Novo Ingresso? (S)im (N)ão"); continua = teclado.next();        
         }while(continua.equalsIgnoreCase("s"));
         
+        valorTotalSala(salas);
+        valorTotalFilme(filmes);
+        valorTotalSessao(salas);
+        valorTotalCinema(salas);
+    }  
+
+    private static void valorTotalCinema(ArrayList<Sala> salas) {
+        System.out.print("------------------------------------------------------------------");
+        System.out.print("\n");
+        System.out.println("\tValor Total de Venda: R$ " + valorTotalSala(salas));
+    }  
+
+    private static void valorTotalSessao(ArrayList<Sala> salas) {
+        System.out.print("------------------------------------------------------------------");
+        System.out.print("\n");
+        System.out.println("\tValor por Sessão");
         for(Sala s: salas){
             for(Sessao e: s.getSessoes()){
-                System.out.println("\t"+e.valorTotalBilhetesVendidos());
-            }
+                System.out.println("\tSessao: "+e.getId()+" - Valor Total Arrecadado: R$ "+e.valorTotalBilhetesVendidos());
+            }            
         }
-        
+    }  
+
+    private static void valorTotalFilme(ArrayList<Filme> filmes) {
+        System.out.print("------------------------------------------------------------------");
+        System.out.print("\n");
+        System.out.println("\tValor por Filme");
+        for(Filme f: filmes){
+            System.out.println("\tFilme: "+f.getNome()+" - Valor Total Arrecadado: R$ "+f.valorTotalFilme());            
+        }
+    }  
+
+    private static double valorTotalSala(ArrayList<Sala> salas) {
+        System.out.print("------------------------------------------------------------------");
+        System.out.print("\n");
+        System.out.println("\tValor por Sala");
+        double valorTotal = 0;
+        for(Sala s: salas){            
+            System.out.println("\tSala "+s.getNumero()+" - Valor Total Arrecadado: R$ "+s.valorTotalSala());
+            valorTotal += s.valorTotalSala();
+        }
+        return valorTotal;
     }  
 
     private static Bilhete criarBilhete(ArrayList<Sala> salas, int numSala, int numSessao, int desc) {
