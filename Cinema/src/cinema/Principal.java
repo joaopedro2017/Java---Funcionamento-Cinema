@@ -24,21 +24,8 @@ public class Principal {
         ArrayList<Sala> salas;
         salas = new ArrayList<>();
         int i = 0, j = 0;
-        String continua = "s";
-        
-        System.out.println("------------------------------------------------------------------");
-        System.out.println("\tInicializar as salas \n");                
-        criarSalas(continua, i, teclado, salas);
-
-        System.out.println("------------------------------------------------------------------");
-        System.out.println("\tCadastro de Filmes\n");        
-        cadastrarFilmes(teclado, filmes);
-        
-        System.out.println("------------------------------------------------------------------");
-        System.out.println("\tMontar Sessoẽs\n");
-        montarSessoes(j, teclado, filmes, salas);        
-               
-        indexarPoltronas(salas);
+        String continua = "s";        
+        cadastroCinema(continua, i, teclado, salas, filmes, j);
         
         System.out.println("------------------------------------------------------------------");
         System.out.print("\n\n");
@@ -46,11 +33,7 @@ public class Principal {
         do{
             System.out.println("\n");
             System.out.println("\tSelecione a Sessão: ");
-            for(Sala s: salas){
-                for(Sessao e: s.getSessoes()){
-                    System.out.println("\t"+e.toString());
-                }
-            }
+            listarSessoes(salas);
             
             int numSala = 0, numSessao = 0;
             System.out.println("\tDigite o código da Sessão: ");    int id = teclado.nextInt();
@@ -63,12 +46,41 @@ public class Principal {
                     }
                     cont++;
                 }
-            }          
+            }
+            
+            int end = salas.get(numSala-1).getPoltronas().get(0).retornoIdIndex(id);            
+            salas.get(numSala-1).mapaSala(end);
+            
+            System.out.println("\t------Quantos lugares?--------");     int qnt = teclado.nextInt();
             
             System.out.println("\tDeseja Vender Novo Ingresso? (S)im (N)ão"); continua = teclado.next();        
         }while(continua.equalsIgnoreCase("s"));    
         
     }  
+
+    private static void cadastroCinema(String continua, int i, Scanner teclado, ArrayList<Sala> salas, ArrayList<Filme> filmes, int j) {
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("\tInicializar as salas \n");
+        criarSalas(continua, i, teclado, salas);
+        
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("\tCadastro de Filmes\n");
+        cadastrarFilmes(teclado, filmes);
+        
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("\tMontar Sessoẽs\n");
+        montarSessoes(j, teclado, filmes, salas);
+        
+        indexarPoltronas(salas);
+    }
+
+    private static void listarSessoes(ArrayList<Sala> salas) {
+        for(Sala s: salas){
+            for(Sessao e: s.getSessoes()){
+                System.out.println("\t"+e.toString());
+            }
+        }
+    }
 
     private static void indexarPoltronas(ArrayList<Sala> salas) {
         for(Sala s: salas){
