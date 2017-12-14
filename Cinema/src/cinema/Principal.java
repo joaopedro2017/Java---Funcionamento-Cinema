@@ -50,7 +50,7 @@ public class Principal {
                 for(Sessao e: s.getSessoes()){
                     System.out.println("\t"+e.toString());
                 }
-            }            
+            }                        
             System.out.println("\tDeseja Vender Novo Ingresso? (S)im (N)ão"); continua = teclado.next();        
         }while(continua.equalsIgnoreCase("s"));    
         
@@ -77,10 +77,8 @@ public class Principal {
             System.out.print("\tInforme o Minuto de Início: "); sessao.setMin(teclado.nextInt());
             System.out.print("\n");
             
-            filmSel = escolherFilme(filmes, idx, teclado, sessao);
-            
-            valido = listarSalasValidas(salas, sessao, valido);
-            
+            filmSel = escolherFilme(filmes, idx, teclado, sessao);            
+            valido = listarSalasValidas(salas, sessao, valido);            
             if(valido){
                 continua = escolherSala(teclado, sessao, salas);             
             }else{
