@@ -28,6 +28,15 @@ public class Principal {
         String continua = "s";        
         cadastroCinema(continua, i, teclado, salas, filmes, j);
         
+        inicializarBilheteria(salas, teclado);
+        
+        valorTotalFilme(filmes);
+        valorTotalSessao(salas);
+        valorTotalSala(salas);        
+    }  
+
+    private static void inicializarBilheteria(ArrayList<Sala> salas, Scanner teclado) {
+        String continua;
         System.out.println("------------------------------------------------------------------");
         System.out.print("\n\n");
         System.out.println("\t\tBilheteria");
@@ -36,38 +45,45 @@ public class Principal {
             System.out.println("\tSelecione a Sessão: ");
             listarSessoes(salas);
             
-            int numSala = 0, numSessao = 0;
-            System.out.println("\tDigite o código da Sessão: ");    int id = teclado.nextInt();
-            for(Sala s: salas){
-                int cont = 0;
-                for(Sessao e: s.getSessoes()){
-                    if(e.getId() == id){
-                       numSala = e.getSala().getNumero();
-                       numSessao = cont;
-                    }
-                    cont++;
-                }
-            }
-            
-            int end = salas.get(numSala-1).getPoltronas().get(0).retornoIdIndex(id);            
-            salas.get(numSala-1).mapaSala(end);
-            
-            System.out.println("\t------Quantos lugares?--------");     int qnt = teclado.nextInt();
-            int desc = qnt;
-            
-            venderBilhete(qnt, teclado, salas, numSala, numSessao, end, desc);
-            
-            System.out.println("\tDeseja Vender Novo Ingresso? (S)im (N)ão"); continua = teclado.next();        
+            continua = selecioneSessao(teclado, salas);           
         }while(continua.equalsIgnoreCase("s"));
-        
-        valorTotalSala(salas);
-        valorTotalFilme(filmes);
-        valorTotalSessao(salas);
-        valorTotalCinema(salas);
     }  
+
+    private static String selecioneSessao(Scanner teclado, ArrayList<Sala> salas) {
+        String continua;
+        int numSala = 0, numSessao = 0;
+        System.out.println("\tDigite o código da Sessão: ");
+        int id = teclado.nextInt();
+        for(Sala s: salas){
+            int cont = 0;
+            for(Sessao e: s.getSessoes()){
+                if(e.getId() == id){
+                    numSala = e.getSala().getNumero();
+                    numSessao = cont;
+                }
+                cont++;
+            }
+        }
+        continua = quantificarVendaBilhete(salas, numSala, id, teclado, numSessao);
+        return continua;
+    }
+
+    private static String quantificarVendaBilhete(ArrayList<Sala> salas, int numSala, int id, Scanner teclado, int numSessao) {
+        String continua;
+        int end = salas.get(numSala-1).getPoltronas().get(0).retornoIdIndex(id);
+        salas.get(numSala-1).mapaSala(end);
+        System.out.println("\t------Quantos lugares?--------");
+        int qnt = teclado.nextInt();
+        int desc = qnt;
+        venderBilhete(qnt, teclado, salas, numSala, numSessao, end, desc);
+        System.out.println("\tDeseja Vender Novo Ingresso? (S)im (N)ão");
+        continua = teclado.next();
+        return continua;
+    }
 
     private static void venderBilhete(int qnt, Scanner teclado, ArrayList<Sala> salas, int numSala, int numSessao, int end, int desc) {
         int fil, col, aux = 1;
+        double valorTotal = 0;
         while(qnt > 0){
             System.out.println("\t"+(aux++) +"º Ingresso: ");
             System.out.print("\tDigite a fileira: "); fil = teclado.nextInt();
@@ -77,30 +93,32 @@ public class Principal {
             if(valido){
                 Bilhete bilhete = criarBilhete(salas, numSala, numSessao, desc);
                 imprimirBilhete(bilhete, fil, col);
+                valorTotal += valorBilhete(salas, numSala, numSessao, desc);
             }else{
                 qnt++;
-                aux--;
-                System.out.println("\tLugar já ocupado ou não existe");
-                System.out.println("\tTente Novamente!");
-                System.out.println("------------------------------------------------------------------");
+                aux = mensagemLugarOcupado(aux);
             }
             qnt--;
         }
+        System.out.println("\n\tValor Total: R$ " + valorTotal);
+        System.out.println("------------------------------------------------------------------");
     }
 
-    private static void valorTotalCinema(ArrayList<Sala> salas) {
-        System.out.print("------------------------------------------------------------------");
-        System.out.print("\n");
-        System.out.println("\tValor Total de Venda: R$ " + valorTotalSala(salas));
-    }  
-
+    private static int mensagemLugarOcupado(int aux) {
+        aux--;
+        System.out.println("\tLugar já ocupado ou não existe");
+        System.out.println("\tTente Novamente!");
+        System.out.println("------------------------------------------------------------------");
+        return aux;
+    }
+   
     private static void valorTotalSessao(ArrayList<Sala> salas) {
         System.out.print("------------------------------------------------------------------");
         System.out.print("\n");
         System.out.println("\tValor por Sessão");
         for(Sala s: salas){
             for(Sessao e: s.getSessoes()){
-                System.out.println("\tSessao: "+e.getId()+" - Valor Total Arrecadado: R$ "+e.valorTotalBilhetesVendidos());
+                System.out.println("\tSessao: "+e.getId()+" - Valor Total de Vendas: R$ "+e.valorTotalBilhetesVendidos());
             }            
         }
     }  
@@ -110,29 +128,41 @@ public class Principal {
         System.out.print("\n");
         System.out.println("\tValor por Filme");
         for(Filme f: filmes){
-            System.out.println("\tFilme: "+f.getNome()+" - Valor Total Arrecadado: R$ "+f.valorTotalFilme());            
+            System.out.println("\tFilme: "+f.getNome()+" - Valor Total de Vendas: R$ "+f.valorTotalFilme());            
         }
     }  
 
-    private static double valorTotalSala(ArrayList<Sala> salas) {
+    private static void valorTotalSala(ArrayList<Sala> salas) {
         System.out.print("------------------------------------------------------------------");
         System.out.print("\n");
         System.out.println("\tValor por Sala");
         double valorTotal = 0;
         for(Sala s: salas){            
-            System.out.println("\tSala "+s.getNumero()+" - Valor Total Arrecadado: R$ "+s.valorTotalSala());
+            System.out.println("\tSala "+s.getNumero()+" - Valor Total de Vendas: R$ "+s.valorTotalSala());
             valorTotal += s.valorTotalSala();
         }
-        return valorTotal;
+        valorTotalCinema(valorTotal);
+    }  
+
+    private static void valorTotalCinema(double valorTotal) {
+        System.out.print("------------------------------------------------------------------");
+        System.out.print("\n");
+        System.out.println("\tValor Total de Vendas: R$ " + valorTotal);
     }  
 
     private static Bilhete criarBilhete(ArrayList<Sala> salas, int numSala, int numSessao, int desc) {
-        double valorBilhete = salas.get(numSala-1).getSessoes().get(numSessao).getPreco();
+        double valorBilhete = valorBilhete(salas, numSala, numSessao, desc);
         Bilhete bilhete = new Bilhete();
-        bilhete.setValor( desc > 4? valorBilhete * 0.85: valorBilhete );
+        bilhete.setValor( valorBilhete );
         bilhete.setSessao( salas.get(numSala-1).getSessoes().get(numSessao) );
         salas.get(numSala-1).getSessoes().get(numSessao).getBilhetes().add(bilhete);
         return bilhete;
+    }
+
+    private static double valorBilhete(ArrayList<Sala> salas, int numSala, int numSessao, int desc) {
+        double valorSessao = salas.get(numSala-1).getSessoes().get(numSessao).getPreco();
+        double valorBilhete = desc > 4? valorSessao * 0.85: valorSessao;
+        return valorBilhete;
     }
 
     private static void imprimirBilhete(Bilhete bilhete, int fil, int col) {
@@ -148,6 +178,7 @@ public class Principal {
         System.out.println("\tFilme: "+bilhete.getSessao().getFilme().getNome() +" - "+bilhete.getSessao().getFilme().getTipo() + " - " +dub) ;
         System.out.println("\tClassificação: " + bilhete.getSessao().getFilme().getClassificacao());
         System.out.println("\tSessão: "+bilhete.getSessao().getHora()+":"+bilhete.getSessao().getMin()+" - "+bilhete.getSessao().horaFinal()+":"+bilhete.getSessao().minFinal());
+        System.out.println("\tValor: R$ " + bilhete.getValor());
         System.out.println("------------------------------------------------------------------");
     }
 
